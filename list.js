@@ -2,6 +2,7 @@
  * API to get all the users list 
  */
 let changeTesting;
+let thischangeonlyForMain;
 let poolConn = require(__base).pool;
 //var _ = require("underscore")
 module.exports = function (req, res) {
@@ -11,29 +12,29 @@ module.exports = function (req, res) {
             let usersList = await conn.query("SELECT * from users;");
             conn.end();
 
-//            console.log("usersList ", usersList)
+            //            console.log("usersList ", usersList)
             if (usersList && usersList.length > 0) {
                 /*
                  * with underscore js functions
                  */
-//                usersList = _.sortBy(usersList, "name")
+                //                usersList = _.sortBy(usersList, "name")
                 /*
                  * with own functions
                  */
                 let sortedData = usersList.sort(function (a, b) {
                     return compareStrings(a.name, b.name);
                 })
-                res.send({status: 200, usersList: sortedData})
+                res.send({ status: 200, usersList: sortedData })
 
             } else {
-                res.send({status: 204, usersList: "Users Not Found"})
+                res.send({ status: 204, usersList: "Users Not Found" })
 
             }
 
         } catch (E) {
             console.log("exception in getting users list ", E)
 
-            res.send({status: 500, error: "The server has encountered a situation it doesn't know how to handle, We will fix soon"})
+            res.send({ status: 500, error: "The server has encountered a situation it doesn't know how to handle, We will fix soon" })
         }
     })();
     function compareStrings(a, b) {
@@ -44,4 +45,3 @@ module.exports = function (req, res) {
         return (a < b) ? -1 : (a > b) ? 1 : 0;
     }
 };
- 
